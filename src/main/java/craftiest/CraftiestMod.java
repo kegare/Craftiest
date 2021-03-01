@@ -6,6 +6,8 @@ import net.minecraft.entity.effect.LightningBoltEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.ListNBT;
 import net.minecraft.network.play.server.STitlePacket;
 import net.minecraft.tileentity.LockableLootTileEntity;
 import net.minecraft.tileentity.LockableTileEntity;
@@ -21,8 +23,10 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent.PlayerChangedDimensionEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -171,6 +175,29 @@ public class CraftiestMod
 		if (stack.hasTag() && stack.getTag().getBoolean("craftiest_victory"))
 		{
 			event.getToolTip().add(new TranslationTextComponent("craftiest.victory_banner.advice").mergeStyle(TextFormatting.GRAY));
+		}
+	}
+
+	@SubscribeEvent
+	public void onChangedDimension(final PlayerChangedDimensionEvent event)
+	{
+		PlayerEntity player = event.getPlayer();
+		CompoundNBT nbt = player.getPersistentData();
+
+		if (event.getTo() == CraftiestWorld.BARRIER_FLAT)
+		{
+			nbt.put("craftiest_inventory", player.inventory.write(new ListNBT()));
+
+			player.inventory.clear();
+		}
+		else if (event.getFrom() == CraftiestWorld.BARRIER_FLAT)
+		{
+			if (nbt.contains("craftiest_inventory"))
+			{
+				player.inventory.read(nbt.getList("craftiest_inventory", Constants.NBT.TAG_COMPOUND));
+
+				nbt.remove("craftiest_inventory");
+			}
 		}
 	}
 }
