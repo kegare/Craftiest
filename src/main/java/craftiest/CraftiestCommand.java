@@ -76,25 +76,10 @@ public class CraftiestCommand
 
 		for (ServerPlayerEntity player : world.getPlayers())
 		{
-			if (pos.withinDistance(new BlockPos(player.getPosX(), pos.getY(), player.getPosZ()), 50.0D))
+			if (pos.withinDistance(new BlockPos(player.getPosX(), pos.getY(), player.getPosZ()), 100.0D))
 			{
 				CraftiestWorld.moveToField(player, pos);
 			}
-			else
-			{
-				player.addItemStackToInventory(CraftiestWorld.createInvitationTicket(pos));
-
-				player.sendMessage(new TranslationTextComponent("craftiest.invitation_ticket.invited"), player.getGameProfile().getId());
-			}
-		}
-
-		MinecraftServer server = context.getSource().getServer();
-
-		for (ServerPlayerEntity player : server.getWorld(World.OVERWORLD).getPlayers())
-		{
-			player.addItemStackToInventory(CraftiestWorld.createInvitationTicket(pos));
-
-			player.sendMessage(new TranslationTextComponent("craftiest.invitation_ticket.invited"), player.getGameProfile().getId());
 		}
 	}
 

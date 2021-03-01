@@ -2,9 +2,6 @@ package craftiest;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.nbt.NBTUtil;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
@@ -47,16 +44,5 @@ public class CraftiestWorld
 		{
 			((ServerPlayerEntity)player).func_242111_a(player.world.getDimensionKey(), pos, 0.0F, true, false);
 		}
-	}
-
-	public static ItemStack createInvitationTicket(BlockPos pos)
-	{
-		ItemStack stack = new ItemStack(Items.PAPER);
-
-		stack.setDisplayName(new TranslationTextComponent("craftiest.invitation_ticket.name"));
-		stack.getOrCreateTag().putBoolean("craftiest_invitation", true);
-		stack.getTag().put("craftiest_pos", NBTUtil.writeBlockPos(pos));
-
-		return stack;
 	}
 }
