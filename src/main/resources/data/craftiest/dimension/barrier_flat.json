@@ -1,6 +1,6 @@
 {
   "type": {
-    "name": "craftiest:craftiest",
+    "name": "craftiest:barrier_flat",
     "ultrawarm": false,
     "natural": false,
     "piglin_safe": true,
@@ -13,9 +13,7 @@
     "ambient_light": 0.0,
     "logical_height": 256,
     "effects": "minecraft:overworld",
-    "infiniburn": "minecraft:infiniburn_overworld",
-    "min_y": 0,
-    "height": 256
+    "infiniburn": "minecraft:infiniburn_overworld"
   },
   "generator": {
     "type": "minecraft:flat",

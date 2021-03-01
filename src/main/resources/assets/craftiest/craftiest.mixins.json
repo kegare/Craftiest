@@ -5,6 +5,7 @@
   "refmap": "craftiest.refmap.json",
   "minVersion": "0.8",
   "client": [
-    "MixinClientWorldInfo"
+    "MixinClientWorldInfo",
+    "MixinServerWorldInfo"
   ]
 }

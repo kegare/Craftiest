@@ -10,7 +10,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.world.ClientWorld.ClientWorldInfo;
 
 @Mixin(ClientWorldInfo.class)
-public abstract class MixinClientWorldInfo
+public class MixinClientWorldInfo
 {
 	private boolean isBarrierFlat()
 	{
@@ -19,7 +19,7 @@ public abstract class MixinClientWorldInfo
 		return mc.world != null && mc.world.getDimensionKey() == CraftiestWorld.BARRIER_FLAT;
 	}
 
-	@Inject(at = @At("HEAD"), method = "getVoidFogHeight()D", cancellable = true)
+	@Inject(at = @At("HEAD"), method = "getVoidFogHeight", cancellable = true)
 	public void getVoidFogHeight(CallbackInfoReturnable<Double> callback)
 	{
 		if (isBarrierFlat())
@@ -28,7 +28,7 @@ public abstract class MixinClientWorldInfo
 		}
 	}
 
-	@Inject(at = @At("HEAD"), method = "getFogDistance()D", cancellable = true)
+	@Inject(at = @At("HEAD"), method = "getFogDistance", cancellable = true)
 	public void getFogDistance(CallbackInfoReturnable<Double> callback)
 	{
 		if (isBarrierFlat())
