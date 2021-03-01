@@ -1,0 +1,41 @@
+modLoader="javafml"
+loaderVersion="[36,)"
+license="GNU General Public License v3.0"
+showAsResourcePack=false
+
+[[mods]]
+modId="craftiest"
+version="alpha-v1"
+displayName="Craftiest: Crafter's Battle"
+displayURL="https://www.curseforge.com/minecraft/mc-mods/craftiest-crafters-battle"
+#updateJSONURL=""
+#logoFile=""
+#credits=""
+authors="kegare"
+description='''
+Let's crafting and mining faster than anyone.
+
+[Quick Guide]
+1. Move to the Craftiest world
+Use command: /craftiest travel
+
+2. Create new field stage
+Use command: /craftiest [field name]
+
+3. Start the game with nearby players
+
+'''
+
+[[dependencies.craftiest]]
+    modId="forge"
+    mandatory=true
+    versionRange="[36,)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.craftiest]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.16.5,1.17)"
+    ordering="NONE"
+    side="BOTH"

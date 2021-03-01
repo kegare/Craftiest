@@ -1,0 +1,13 @@
+{
+  "craftiest.command.error.world": "This command is available only in Craftiest world. Execute /craftiest travel command first.",
+  "craftiest.challenge.message": "Find the victory banner hidden somewhere!",
+  "craftiest.treasure_box.name": "Treasure Box",
+  "craftiest.trap_box.name": "Trap Box",
+  "craftiest.victory_banner.name": "Victory Banner",
+  "craftiest.victory_banner.advice": "Place and raise your victory high in the sky!",
+  "craftiest.victory_banner.found.message": "%s has found the victory banner!",
+  "craftiest.victory_banner.wrong.message": "No, let's put it on the ground where can see sky.",
+  "craftiest.victory.message": "%s wins with the victory banner!",
+  "craftiest.winner.title": "You WIN!",
+  "craftiest.loser.title": "You LOSE!"
+}

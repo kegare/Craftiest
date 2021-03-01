@@ -1,0 +1,38 @@
+{
+  "type": {
+    "name": "craftiest:craftiest",
+    "ultrawarm": false,
+    "natural": false,
+    "piglin_safe": true,
+    "respawn_anchor_works": false,
+    "bed_works": false,
+    "has_raids": false,
+    "has_skylight": true,
+    "has_ceiling": false,
+    "coordinate_scale": 1.0,
+    "ambient_light": 0.0,
+    "logical_height": 256,
+    "effects": "minecraft:overworld",
+    "infiniburn": "minecraft:infiniburn_overworld",
+    "min_y": 0,
+    "height": 256
+  },
+  "generator": {
+    "type": "minecraft:flat",
+    "seed": 0,
+    "settings": {
+      "biome": "minecraft:plains",
+      "lakes": false,
+      "features": false,
+      "layers": [
+        {
+          "block": "minecraft:barrier",
+          "height": 1
+        }
+      ],
+      "structures": {
+        "structures": {}
+      }
+    }
+  }
+}

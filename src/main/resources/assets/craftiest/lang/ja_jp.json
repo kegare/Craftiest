@@ -1,0 +1,13 @@
+{
+  "craftiest.command.error.world": "このコマンドはこの世界では使用できません。/craftiest travel コマンドを先に実行して移動してください。",
+  "craftiest.challenge.message": "どこかに隠された勝利の旗を探し出せ！",
+  "craftiest.treasure_box.name": "宝箱",
+  "craftiest.trap_box.name": "ハズレ箱",
+  "craftiest.victory_banner.name": "勝利の旗",
+  "craftiest.victory_banner.advice": "地上に置いて空高く勝利を宣言しよう！",
+  "craftiest.victory_banner.found.message": "%s が勝利の旗を発見した！",
+  "craftiest.victory_banner.wrong.message": "ここに置くべきではない。空が見える場所に置こう。",
+  "craftiest.victory.message": "%s が勝利の旗を掲げて勝利した！",
+  "craftiest.winner.title": "勝利",
+  "craftiest.loser.title": "敗北"
+}

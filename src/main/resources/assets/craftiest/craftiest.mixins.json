@@ -1,0 +1,10 @@
+{
+  "required": true,
+  "package": "craftiest.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "craftiest.refmap.json",
+  "minVersion": "0.8",
+  "client": [
+    "MixinClientWorldInfo"
+  ]
+}
