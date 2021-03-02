@@ -29,11 +29,16 @@ public class FieldGenerator
 	protected final BlockPos originPos;
 	protected final Random random;
 
-	public FieldGenerator(ServerWorld worldIn, BlockPos posIn)
+	protected final int fieldSize;
+	protected final int boxCount;
+
+	public FieldGenerator(ServerWorld worldIn, BlockPos posIn, int size, int boxCount)
 	{
 		this.world = worldIn;
 		this.originPos = posIn;
 		this.random = new Random();
+		this.fieldSize = size;
+		this.boxCount = boxCount;
 	}
 
 	public void generate()
@@ -56,7 +61,7 @@ public class FieldGenerator
 		int originZ = originPos.getZ();
 		int maxY = world.getHeight() - 1;
 
-		for (BlockPos pos : BlockPos.getAllInBoxMutable(originX - 50, 0, originZ - 20, originX + 50, maxY, originZ + 20))
+		for (BlockPos pos : BlockPos.getAllInBoxMutable(originX - fieldSize - 20, 0, originZ - 20, originX + fieldSize + 20, maxY, originZ + 20))
 		{
 			if (pos.getY() == 0)
 			{
@@ -82,7 +87,7 @@ public class FieldGenerator
 		int originX = originPos.getX();
 		int originZ = originPos.getZ();
 
-		for (BlockPos pos : BlockPos.getAllInBoxMutable(originX - 30, 0, originZ, originX + 30, 64, originZ))
+		for (BlockPos pos : BlockPos.getAllInBoxMutable(originX - fieldSize, 0, originZ, originX + fieldSize, 64, originZ))
 		{
 			int y = pos.getY();
 
@@ -131,74 +136,75 @@ public class FieldGenerator
 
 	protected void makeOres()
 	{
-		BlockPos startPos = new BlockPos(originPos.getX() - 30, 0, originPos.getZ());
+		BlockPos startPos = new BlockPos(originPos.getX() - fieldSize, 0, originPos.getZ());
+		int fullLength = fieldSize * 2;
 
 		for (int i = random.nextInt(15) + 30; i > 0; i--)
 		{
-			BlockPos pos = startPos.add(random.nextInt(60), random.nextInt(20) + 40, 0);
+			BlockPos pos = startPos.add(random.nextInt(fullLength), random.nextInt(20) + 40, 0);
 
 			makeOre(pos, 10, Blocks.COAL_ORE.getDefaultState());
 		}
 
 		for (int i = random.nextInt(15) + 30; i > 0; i--)
 		{
-			BlockPos pos = startPos.add(random.nextInt(60), random.nextInt(35) + 10, 0);
+			BlockPos pos = startPos.add(random.nextInt(fullLength), random.nextInt(35) + 10, 0);
 
 			makeOre(pos, 5, Blocks.IRON_ORE.getDefaultState());
 		}
 
 		for (int i = random.nextInt(10) + 10; i > 0; i--)
 		{
-			BlockPos pos = startPos.add(random.nextInt(60), random.nextInt(40) + 10, 0);
+			BlockPos pos = startPos.add(random.nextInt(fullLength), random.nextInt(40) + 10, 0);
 
 			makeOre(pos, 3, Blocks.REDSTONE_ORE.getDefaultState());
 		}
 
 		for (int i = random.nextInt(10) + 10; i > 0; i--)
 		{
-			BlockPos pos = startPos.add(random.nextInt(60), random.nextInt(30) + 30, 0);
+			BlockPos pos = startPos.add(random.nextInt(fullLength), random.nextInt(30) + 30, 0);
 
 			makeOre(pos, 10, Blocks.EMERALD_ORE.getDefaultState());
 		}
 
 		for (int i = random.nextInt(10) + 10; i > 0; i--)
 		{
-			BlockPos pos = startPos.add(random.nextInt(60), random.nextInt(15), 0);
+			BlockPos pos = startPos.add(random.nextInt(fullLength), random.nextInt(15), 0);
 
 			makeOre(pos, 3, Blocks.DIAMOND_ORE.getDefaultState());
 		}
 
 		for (int i = 5; i > 0; i--)
 		{
-			BlockPos pos = startPos.add(random.nextInt(60), random.nextInt(10) + 50, 0);
+			BlockPos pos = startPos.add(random.nextInt(fullLength), random.nextInt(10) + 50, 0);
 
 			makeTrapezoid(pos, random.nextInt(2) + 1, random.nextInt(2) + 1, random.nextInt(5) + 2, 2, Blocks.SAND.getDefaultState());
 		}
 
 		for (int i = 30; i > 0; i--)
 		{
-			BlockPos pos = startPos.add(random.nextInt(60), random.nextInt(50), 0);
+			BlockPos pos = startPos.add(random.nextInt(fullLength), random.nextInt(50), 0);
 
 			makeOre(pos, 10, Blocks.GRAVEL.getDefaultState());
 		}
 
 		for (int i = 20; i > 0; i--)
 		{
-			BlockPos pos = startPos.add(random.nextInt(60), random.nextInt(50), 0);
+			BlockPos pos = startPos.add(random.nextInt(fullLength), random.nextInt(50), 0);
 
 			makeOre(pos, 10, Blocks.GRANITE.getDefaultState());
 		}
 
 		for (int i = 20; i > 0; i--)
 		{
-			BlockPos pos = startPos.add(random.nextInt(60), random.nextInt(50), 0);
+			BlockPos pos = startPos.add(random.nextInt(fullLength), random.nextInt(50), 0);
 
 			makeOre(pos, 10, Blocks.DIORITE.getDefaultState());
 		}
 
 		for (int i = 20; i > 0; i--)
 		{
-			BlockPos pos = startPos.add(random.nextInt(60), random.nextInt(50), 0);
+			BlockPos pos = startPos.add(random.nextInt(fullLength), random.nextInt(50), 0);
 
 			makeOre(pos, 10, Blocks.ANDESITE.getDefaultState());
 		}
@@ -290,9 +296,9 @@ public class FieldGenerator
 		int originX = originPos.getX();
 		int originZ = originPos.getZ();
 
-		for (BlockPos pos : BlockPos.getAllInBoxMutable(originX - 30, 64, originZ, originX + 30, 64, originZ))
+		for (BlockPos pos : BlockPos.getAllInBoxMutable(originX - fieldSize, 64, originZ, originX + fieldSize, 64, originZ))
 		{
-			if (world.isAirBlock(pos.up()))
+			if (random.nextDouble() <= 0.5D && world.isAirBlock(pos.up()))
 			{
 				BlockState state = world.getBlockState(pos);
 
@@ -437,11 +443,12 @@ public class FieldGenerator
 
 	protected void makeTraps()
 	{
-		BlockPos startPos = new BlockPos(originPos.getX() - 30, 0, originPos.getZ());
+		BlockPos startPos = new BlockPos(originPos.getX() - fieldSize, 0, originPos.getZ());
+		int fullLength = fieldSize * 2;
 
 		for (int i = random.nextInt(10) + 3; i > 0; i--)
 		{
-			BlockPos pos = startPos.add(random.nextInt(60), random.nextInt(55) + 5, 0);
+			BlockPos pos = startPos.add(random.nextInt(fullLength), random.nextInt(55) + 5, 0);
 
 			makeMineTrap(pos);
 		}
@@ -456,11 +463,12 @@ public class FieldGenerator
 
 	protected void makeChests()
 	{
-		BlockPos startPos = new BlockPos(originPos.getX() - 30, 0, originPos.getZ());
+		BlockPos startPos = new BlockPos(originPos.getX() - fieldSize, 0, originPos.getZ());
+		int fullLength = fieldSize * 2;
 
 		for (int i = 15; i > 0; i--)
 		{
-			BlockPos pos = startPos.add(random.nextInt(60), random.nextInt(66), 0);
+			BlockPos pos = startPos.add(random.nextInt(fullLength), random.nextInt(66), 0);
 
 			if (random.nextDouble() <= 0.3D)
 			{
@@ -496,12 +504,13 @@ public class FieldGenerator
 
 	protected void makeObsidianBoxes()
 	{
-		BlockPos startPos = new BlockPos(originPos.getX() - 25, 1, originPos.getZ());
+		BlockPos startPos = new BlockPos(originPos.getX() - fieldSize + 5, 1, originPos.getZ());
+		int fullLength = fieldSize * 2;
 		boolean victoryBox = false;
 
-		for (int i = 5; i > 0; i--)
+		for (int i = boxCount; i > 0; i--)
 		{
-			BlockPos pos = startPos.add(random.nextInt(50), random.nextInt(50), 0);
+			BlockPos pos = startPos.add(random.nextInt(fullLength - 5), random.nextInt(50), 0);
 
 			if (victoryBox)
 			{
@@ -563,18 +572,18 @@ public class FieldGenerator
 
 		for (int y = 0; y <= 80; y++)
 		{
-			if (!world.getBlockState(posCache.setPos(originX - 31, y, originZ)).isIn(Blocks.BARRIER))
+			if (!world.getBlockState(posCache.setPos(originX - fieldSize - 1, y, originZ)).isIn(Blocks.BARRIER))
 			{
 				world.setBlockState(posCache, Blocks.BARRIER.getDefaultState(), 2);
 			}
 
-			if (!world.getBlockState(posCache.setPos(originX + 31, y, originZ)).isIn(Blocks.BARRIER))
+			if (!world.getBlockState(posCache.setPos(originX + fieldSize + 1, y, originZ)).isIn(Blocks.BARRIER))
 			{
 				world.setBlockState(posCache, Blocks.BARRIER.getDefaultState(), 2);
 			}
 		}
 
-		for (BlockPos pos : BlockPos.getAllInBoxMutable(originX - 31, 0, originZ - 1, originX + 31, 80, originZ - 1))
+		for (BlockPos pos : BlockPos.getAllInBoxMutable(originX - fieldSize - 1, 0, originZ - 1, originX + fieldSize + 1, 80, originZ - 1))
 		{
 			if (!world.getBlockState(pos).isIn(Blocks.BARRIER))
 			{
@@ -582,7 +591,7 @@ public class FieldGenerator
 			}
 		}
 
-		for (BlockPos pos : BlockPos.getAllInBoxMutable(originX - 31, 0, originZ + 1, originX + 31, 80, originZ + 1))
+		for (BlockPos pos : BlockPos.getAllInBoxMutable(originX - fieldSize - 1, 0, originZ + 1, originX + fieldSize + 1, 80, originZ + 1))
 		{
 			if (!world.getBlockState(pos).isIn(Blocks.BARRIER))
 			{
@@ -590,7 +599,7 @@ public class FieldGenerator
 			}
 		}
 
-		for (BlockPos pos : BlockPos.getAllInBoxMutable(originX - 31, 80, originZ, originX + 31, 80, originZ))
+		for (BlockPos pos : BlockPos.getAllInBoxMutable(originX - fieldSize - 1, 80, originZ, originX + fieldSize + 1, 80, originZ))
 		{
 			if (!world.getBlockState(pos).isIn(Blocks.BARRIER))
 			{

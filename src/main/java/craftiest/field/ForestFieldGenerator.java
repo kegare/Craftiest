@@ -10,7 +10,7 @@ public class ForestFieldGenerator extends FieldGenerator
 {
 	public ForestFieldGenerator(ServerWorld worldIn, BlockPos posIn)
 	{
-		super(worldIn, posIn);
+		super(worldIn, posIn, 30, 5);
 	}
 
 	@Override
@@ -41,7 +41,7 @@ public class ForestFieldGenerator extends FieldGenerator
 
 		for (BlockPos pos : BlockPos.getAllInBoxMutable(originX - 28, 65, originZ, originX + 28, 65, originZ))
 		{
-			if (pos.distanceSq(originPos) < 3.0D)
+			if (pos.withinDistance(originPos, 2.0D))
 			{
 				continue;
 			}

@@ -1,5 +1,6 @@
 {
-  "craftiest.command.error.world": "This command is available only in Craftiest world. Execute /craftiest travel command first.",
+  "craftiest.command.error.travel": "Not available in this world. Move to overworld and try again.",
+  "craftiest.command.error.field": "Not available in this world. Run /craftiest travel command first.",
   "craftiest.challenge.message": "Find the victory banner hidden somewhere!",
   "craftiest.treasure_box.name": "Treasure Box",
   "craftiest.trap_box.name": "Trap Box",
