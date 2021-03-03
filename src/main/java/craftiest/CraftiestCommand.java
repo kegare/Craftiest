@@ -9,6 +9,8 @@ import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
 import craftiest.field.ForestFieldGenerator;
+import craftiest.field.NetherFieldGenerator;
+import craftiest.field.OceanFieldGenerator;
 import craftiest.field.PlainsFieldGenerator;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
@@ -23,7 +25,8 @@ public class CraftiestCommand
 {
 	public static void register(final CommandDispatcher<CommandSource> dispatcher)
 	{
-		dispatcher.register(LiteralArgumentBuilder.<CommandSource>literal("craftiest").then(registerTravel()).then(registerForest()).then(registerPlains()));
+		dispatcher.register(LiteralArgumentBuilder.<CommandSource>literal("craftiest")
+			.then(registerTravel()).then(registerForest()).then(registerPlains()).then(registerOcean()).then(registerNether()));
 	}
 
 	private static ArgumentBuilder<CommandSource, ?> registerTravel()
@@ -39,6 +42,16 @@ public class CraftiestCommand
 	private static ArgumentBuilder<CommandSource, ?> registerPlains()
 	{
 		return Commands.literal("plains").executes(ctx -> execute(ctx, CraftiestCommand::setupPlainsField));
+	}
+
+	private static ArgumentBuilder<CommandSource, ?> registerOcean()
+	{
+		return Commands.literal("ocean").executes(ctx -> execute(ctx, CraftiestCommand::setupOceanField));
+	}
+
+	private static ArgumentBuilder<CommandSource, ?> registerNether()
+	{
+		return Commands.literal("nether").executes(ctx -> execute(ctx, CraftiestCommand::setupNetherField));
 	}
 
 	private static int execute(CommandContext<CommandSource> context, CommandConsumer<CommandContext<CommandSource>> command) throws CommandSyntaxException
@@ -90,14 +103,29 @@ public class CraftiestCommand
 		}
 	}
 
+	private static void setupField(CommandContext<CommandSource> context, Consumer<BlockPos> generator)
+	{
+		setupField(context, new BlockPos(8, 65, 8), generator);
+	}
+
 	private static void setupForestField(CommandContext<CommandSource> context) throws CommandSyntaxException
 	{
-		setupField(context, new BlockPos(8, 65, 8), pos -> new ForestFieldGenerator(context.getSource().getWorld(), pos).generate());
+		setupField(context, pos -> new ForestFieldGenerator(context.getSource().getWorld(), pos).generate());
 	}
 
 	private static void setupPlainsField(CommandContext<CommandSource> context) throws CommandSyntaxException
 	{
-		setupField(context, new BlockPos(8, 65, 8), pos -> new PlainsFieldGenerator(context.getSource().getWorld(), pos).generate());
+		setupField(context, pos -> new PlainsFieldGenerator(context.getSource().getWorld(), pos).generate());
+	}
+
+	private static void setupOceanField(CommandContext<CommandSource> context) throws CommandSyntaxException
+	{
+		setupField(context, pos -> new OceanFieldGenerator(context.getSource().getWorld(), pos).generate());
+	}
+
+	private static void setupNetherField(CommandContext<CommandSource> context) throws CommandSyntaxException
+	{
+		setupField(context, pos -> new NetherFieldGenerator(context.getSource().getWorld(), pos).generate());
 	}
 
 	interface CommandConsumer<T>

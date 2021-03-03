@@ -4,6 +4,8 @@
   "craftiest.challenge.message": "Find the victory banner hidden somewhere!",
   "craftiest.treasure_box.name": "Treasure Box",
   "craftiest.trap_box.name": "Trap Box",
+  "craftiest.trap_box.swap.place": "%s and your place have been swapped.",
+  "craftiest.trap_box.swap.inventory": "%s and your inventory have been swapped.",
   "craftiest.victory_banner.name": "Victory Banner",
   "craftiest.victory_banner.advice": "Place and raise your victory high in the sky!",
   "craftiest.victory_banner.found.message": "%s has found the victory banner!",

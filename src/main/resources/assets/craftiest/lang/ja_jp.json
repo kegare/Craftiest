@@ -4,6 +4,8 @@
   "craftiest.challenge.message": "どこかに隠された勝利の旗を探し出せ！",
   "craftiest.treasure_box.name": "宝箱",
   "craftiest.trap_box.name": "ハズレ箱",
+  "craftiest.trap_box.swap.place": "%s と場所が入れ替わった",
+  "craftiest.trap_box.swap.inventory": "%s と持ち物が入れ替わった",
   "craftiest.victory_banner.name": "勝利の旗",
   "craftiest.victory_banner.advice": "地上に置いて空高く勝利を宣言しよう！",
   "craftiest.victory_banner.found.message": "%s が勝利の旗を発見した！",

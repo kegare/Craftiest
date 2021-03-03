@@ -2,6 +2,8 @@ package craftiest.field;
 
 import java.util.Random;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.IGrowable;
@@ -25,6 +27,8 @@ import net.minecraft.world.server.ServerWorld;
 
 public class FieldGenerator
 {
+	public static final ResourceLocation CHESTS_MISC_CHEST = new ResourceLocation("craftiest", "chests/misc_chest");
+
 	protected final ServerWorld world;
 	protected final BlockPos originPos;
 	protected final Random random;
@@ -248,7 +252,7 @@ public class FieldGenerator
 
 			world.setBlockState(pos, logBlock, 2);
 
-			if (i >= height - 3)
+			if (i >= height - 3 && leaves > 0)
 			{
 				BlockPos.Mutable posCache = new BlockPos.Mutable();
 
@@ -387,7 +391,7 @@ public class FieldGenerator
 		}
 	}
 
-	protected void makeMonsterRoom(BlockPos posIn, BlockState stoneBlock, int count, EntityType<?> type)
+	protected void makeMonsterRoom(BlockPos posIn, BlockState stoneBlock, int count, EntityType<? extends MobEntity> type)
 	{
 		for (BlockPos pos : BlockPos.getAllInBoxMutable(posIn.west(3), posIn.east(3).up(4)))
 		{
@@ -432,11 +436,11 @@ public class FieldGenerator
 
 		for (int i = 0; i < count; i++)
 		{
-			Entity entity = type.spawn(world, null, null, null, i > 5 ? posIn.up() : pos.east(i), SpawnReason.STRUCTURE, false, false);
+			MobEntity entity = type.spawn(world, null, null, null, i > 5 ? posIn.up() : pos.east(i), SpawnReason.STRUCTURE, false, false);
 
-			if (entity != null && entity instanceof MobEntity)
+			if (entity != null)
 			{
-				((MobEntity)entity).enablePersistence();
+				entity.enablePersistence();
 			}
 		}
 	}
@@ -472,24 +476,24 @@ public class FieldGenerator
 
 			if (random.nextDouble() <= 0.3D)
 			{
-				makeChest(pos, LootTables.CHESTS_SIMPLE_DUNGEON);
-			}
-			else if (random.nextDouble() <= 0.3D)
-			{
 				makeChest(pos, LootTables.CHESTS_VILLAGE_VILLAGE_ARMORER);
 			}
 			else if (random.nextDouble() <= 0.3D)
 			{
 				makeChest(pos, LootTables.CHESTS_VILLAGE_VILLAGE_WEAPONSMITH);
 			}
-			else
+			else if (random.nextDouble() <= 0.3D)
 			{
 				makeChest(pos, LootTables.CHESTS_VILLAGE_VILLAGE_BUTCHER);
+			}
+			else
+			{
+				makeChest(pos, CHESTS_MISC_CHEST);
 			}
 		}
 	}
 
-	protected void makeChest(BlockPos posIn, ResourceLocation lootTable)
+	protected void makeChest(BlockPos posIn, @Nullable ResourceLocation lootTable)
 	{
 		if (world.getBlockState(posIn.down()).getMaterial().blocksMovement() && !world.getBlockState(posIn).isIn(Blocks.CHEST))
 		{
@@ -510,7 +514,7 @@ public class FieldGenerator
 
 		for (int i = boxCount; i > 0; i--)
 		{
-			BlockPos pos = startPos.add(random.nextInt(fullLength - 5), random.nextInt(50), 0);
+			BlockPos pos = startPos.add(random.nextInt(fullLength - 10), random.nextInt(50), 0);
 
 			if (victoryBox)
 			{

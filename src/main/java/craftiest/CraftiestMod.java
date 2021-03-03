@@ -1,6 +1,9 @@
 package craftiest;
 
+import java.util.List;
+
 import net.minecraft.block.Blocks;
+import net.minecraft.entity.EntityPredicate;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.effect.LightningBoltEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -112,11 +115,50 @@ public class CraftiestMod
 					}
 					else
 					{
-						LightningBoltEntity lightning = EntityType.LIGHTNING_BOLT.create(world);
+						List<PlayerEntity> players = world.getTargettablePlayersWithinAABB(new EntityPredicate().setSkipAttackChecks(), player, player.getBoundingBox().grow(50.0D, 50.0D, 0.0D));
 
-						lightning.moveForced(player.getPositionVec());
+						if (players.size() > 1 && world.rand.nextDouble() <= 0.5D)
+						{
+							PlayerEntity target = players.get(world.rand.nextInt(players.size()));
 
-						world.addEntity(lightning);
+							if (world.rand.nextDouble() <= 0.5D)
+							{
+								Vector3d movePos = target.getPositionVec();
+
+								target.setPositionAndUpdate(player.getPosX(), player.getPosY(), player.getPosZ());
+								target.sendMessage(new TranslationTextComponent("craftiest.trap_box.swap.place", player.getDisplayName()), player.getGameProfile().getId());
+
+								world.playSound(null, player.getPosX(), player.getPosY(), player.getPosZ(), SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.BLOCKS, 1.0F, 1.0F);
+
+								player.setPositionAndUpdate(movePos.getX(), movePos.getY(), movePos.getZ());
+								player.sendMessage(new TranslationTextComponent("craftiest.trap_box.swap.place", target.getDisplayName()), target.getGameProfile().getId());
+
+								world.playSound(null, movePos.getX(), movePos.getY(), movePos.getZ(), SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.BLOCKS, 1.0F, 1.0F);
+							}
+							else
+							{
+								ListNBT playerInv = player.inventory.write(new ListNBT());
+								ListNBT targetInv = target.inventory.write(new ListNBT());
+
+								target.inventory.read(playerInv);
+								target.sendMessage(new TranslationTextComponent("craftiest.trap_box.swap.inventory", player.getDisplayName()), player.getGameProfile().getId());
+
+								world.playSound(null, target.getPosX(), target.getPosY(), target.getPosZ(), SoundEvents.ENTITY_ITEM_PICKUP, SoundCategory.BLOCKS, 1.0F, 1.0F);
+
+								player.inventory.read(targetInv);
+								player.sendMessage(new TranslationTextComponent("craftiest.trap_box.swap.inventory", target.getDisplayName()), target.getGameProfile().getId());
+
+								world.playSound(null, player.getPosX(), player.getPosY(), player.getPosZ(), SoundEvents.ENTITY_ITEM_PICKUP, SoundCategory.BLOCKS, 1.0F, 1.0F);
+							}
+						}
+						else
+						{
+							LightningBoltEntity lightning = EntityType.LIGHTNING_BOLT.create(world);
+
+							lightning.moveForced(player.getPositionVec());
+
+							world.addEntity(lightning);
+						}
 					}
 
 					tileEntity.getTileData().putBoolean("craftiest_fake", false);
@@ -188,6 +230,13 @@ public class CraftiestMod
 		{
 			nbt.put("craftiest_inventory", player.inventory.write(new ListNBT()));
 
+			CompoundNBT statusNBT = new CompoundNBT();
+
+			statusNBT.putFloat("health", player.getHealth());
+			statusNBT.putInt("food_level", player.getFoodStats().getFoodLevel());
+
+			nbt.put("craftiest_status", statusNBT);
+
 			player.inventory.clear();
 		}
 		else if (event.getFrom() == CraftiestWorld.BARRIER_FLAT)
@@ -197,6 +246,16 @@ public class CraftiestMod
 				player.inventory.read(nbt.getList("craftiest_inventory", Constants.NBT.TAG_COMPOUND));
 
 				nbt.remove("craftiest_inventory");
+			}
+
+			if (nbt.contains("craftiest_status"))
+			{
+				CompoundNBT statusNBT = nbt.getCompound("craftiest_status");
+
+				player.setHealth(statusNBT.getFloat("health"));
+				player.getFoodStats().setFoodLevel(statusNBT.getInt("food_level"));
+
+				nbt.remove("craftiest_status");
 			}
 		}
 	}

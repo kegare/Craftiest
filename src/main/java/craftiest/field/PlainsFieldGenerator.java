@@ -19,18 +19,19 @@ public class PlainsFieldGenerator extends FieldGenerator
 	@Override
 	protected void makeLiquids()
 	{
-		BlockPos startPos = new BlockPos(originPos.getX() - 25, 0, originPos.getZ());
+		BlockPos startPos = new BlockPos(originPos.getX() - fieldSize + 10, 0, originPos.getZ());
+		int fullLength = fieldSize * 2;
 
 		for (int i = 5; i > 0; i--)
 		{
-			BlockPos pos = startPos.add(random.nextInt(50), random.nextInt(random.nextInt(random.nextInt(30) + 20) + 10), 0);
+			BlockPos pos = startPos.add(random.nextInt(fullLength - 20), random.nextInt(random.nextInt(random.nextInt(30) + 20) + 10), 0);
 
 			makeLiquid(pos, Blocks.LAVA.getDefaultState());
 		}
 
 		for (int i = 8; i > 0; i--)
 		{
-			BlockPos pos = startPos.add(random.nextInt(50), random.nextInt(40) + 20, 0);
+			BlockPos pos = startPos.add(random.nextInt(fullLength - 20), random.nextInt(40) + 20, 0);
 
 			makeLiquid(pos, Blocks.WATER.getDefaultState());
 		}
@@ -43,7 +44,7 @@ public class PlainsFieldGenerator extends FieldGenerator
 		int originZ = originPos.getZ();
 		int treeCount = 5;
 
-		for (BlockPos pos : BlockPos.getAllInBoxMutable(originX - 48, 65, originZ, originX + 48, 65, originZ))
+		for (BlockPos pos : BlockPos.getAllInBoxMutable(originX - fieldSize + 2, 65, originZ, originX + fieldSize - 2, 65, originZ))
 		{
 			if (pos.withinDistance(originPos, 5.0D))
 			{
@@ -97,46 +98,47 @@ public class PlainsFieldGenerator extends FieldGenerator
 	@Override
 	protected void makeStructures()
 	{
-		BlockPos startPos = new BlockPos(originPos.getX() - 48, 0, originPos.getZ());
+		BlockPos startPos = new BlockPos(originPos.getX() - fieldSize + 2, 0, originPos.getZ());
+		int fullLength = fieldSize * 2;
 
 		for (int i = random.nextInt(3) + 2; i > 0; i--)
 		{
-			BlockPos pos = startPos.add(random.nextInt(96), random.nextInt(30) + 30, 0);
+			BlockPos pos = startPos.add(random.nextInt(fullLength - 4), random.nextInt(30) + 30, 0);
 
 			makeVillageHouse(pos, Blocks.OAK_LOG.getDefaultState(), Blocks.OAK_PLANKS.getDefaultState());
 		}
 
 		for (int i = random.nextInt(10); i > 0; i--)
 		{
-			BlockPos pos = startPos.add(random.nextInt(96), random.nextInt(50) + 10, 0);
+			BlockPos pos = startPos.add(random.nextInt(fullLength - 4), random.nextInt(50) + 10, 0);
 
 			makeMonsterRoom(pos, Blocks.COBBLESTONE.getDefaultState(), 5, EntityType.ZOMBIE);
 		}
 
 		for (int i = random.nextInt(10); i > 0; i--)
 		{
-			BlockPos pos = startPos.add(random.nextInt(96), random.nextInt(50) + 10, 0);
+			BlockPos pos = startPos.add(random.nextInt(fullLength - 4), random.nextInt(50) + 10, 0);
 
 			makeMonsterRoom(pos, Blocks.COBBLESTONE.getDefaultState(), 4, EntityType.SKELETON);
 		}
 
 		for (int i = random.nextInt(10); i > 0; i--)
 		{
-			BlockPos pos = startPos.add(random.nextInt(96), random.nextInt(50) + 10, 0);
+			BlockPos pos = startPos.add(random.nextInt(fullLength - 4), random.nextInt(50) + 10, 0);
 
 			makeMonsterRoom(pos, Blocks.COBBLESTONE.getDefaultState(), 3, EntityType.CREEPER);
 		}
 
 		for (int i = random.nextInt(10); i > 0; i--)
 		{
-			BlockPos pos = startPos.add(random.nextInt(96), random.nextInt(50) + 10, 0);
+			BlockPos pos = startPos.add(random.nextInt(fullLength - 4), random.nextInt(50) + 10, 0);
 
 			makeMonsterRoom(pos, Blocks.COBBLESTONE.getDefaultState(), 3, EntityType.WITCH);
 		}
 
 		for (int i = random.nextInt(10); i > 0; i--)
 		{
-			BlockPos pos = startPos.add(random.nextInt(96), random.nextInt(50) + 10, 0);
+			BlockPos pos = startPos.add(random.nextInt(fullLength - 4), random.nextInt(50) + 10, 0);
 
 			makeMonsterRoom(pos, Blocks.COBBLESTONE.getDefaultState(), 5, EntityType.CAVE_SPIDER);
 		}

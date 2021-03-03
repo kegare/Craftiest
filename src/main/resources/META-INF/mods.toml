@@ -5,11 +5,11 @@ showAsResourcePack=false
 
 [[mods]]
 modId="craftiest"
-version="alpha-v2"
+version="beta-v1"
 displayName="Craftiest: Crafter's Battle"
 displayURL="https://www.curseforge.com/minecraft/mc-mods/craftiest-crafters-battle"
+logoFile="logo.png"
 #updateJSONURL=""
-#logoFile=""
 #credits=""
 authors="kegare"
 description='''

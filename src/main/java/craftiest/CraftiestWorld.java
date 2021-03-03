@@ -36,6 +36,9 @@ public class CraftiestWorld
 
 		player.inventory.clear();
 
+		player.setHealth(player.getMaxHealth());
+		player.getFoodStats().setFoodLevel(20);
+
 		player.setGameType(GameType.SURVIVAL);
 
 		player.sendMessage(new TranslationTextComponent("craftiest.challenge.message"), player.getGameProfile().getId());
